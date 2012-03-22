@@ -1,0 +1,335 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A696CE13151A8F7F00AD88CF /* DropPinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = A696CE12151A8F7F00AD88CF /* DropPinAnnotation.m */; };
+		A696CE16151A9EB200AD88CF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A696CE15151A9EB200AD88CF /* Icon.png */; };
+		A696CE18151A9EB500AD88CF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A696CE17151A9EB500AD88CF /* icon@2x.png */; };
+		A6A3244F151982ED00BA2E10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A3244E151982ED00BA2E10 /* UIKit.framework */; };
+		A6A32451151982ED00BA2E10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A32450151982ED00BA2E10 /* Foundation.framework */; };
+		A6A32453151982ED00BA2E10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A32452151982ED00BA2E10 /* CoreGraphics.framework */; };
+		A6A32455151982ED00BA2E10 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A32454151982ED00BA2E10 /* CoreData.framework */; };
+		A6A3245B151982ED00BA2E10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A6A32459151982ED00BA2E10 /* InfoPlist.strings */; };
+		A6A3245D151982ED00BA2E10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A3245C151982ED00BA2E10 /* main.m */; };
+		A6A32461151982ED00BA2E10 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A32460151982ED00BA2E10 /* AppDelegate.m */; };
+		A6A32464151982ED00BA2E10 /* LocateMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A6A32462151982ED00BA2E10 /* LocateMe.xcdatamodeld */; };
+		A6A3246D1519831F00BA2E10 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A3246C1519831F00BA2E10 /* CoreLocation.framework */; };
+		A6A324701519834500BA2E10 /* LocateMeController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A3246F1519834500BA2E10 /* LocateMeController.m */; };
+		A6A32472151983AD00BA2E10 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A32471151983AD00BA2E10 /* MapKit.framework */; };
+		A6A324771519883C00BA2E10 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A3246B1519830700BA2E10 /* MyCLController.m */; };
+		A6A32486151996B300BA2E10 /* locateme.png in Resources */ = {isa = PBXBuildFile; fileRef = A6A32485151996B300BA2E10 /* locateme.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A696CE11151A8F7F00AD88CF /* DropPinAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropPinAnnotation.h; sourceTree = "<group>"; };
+		A696CE12151A8F7F00AD88CF /* DropPinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropPinAnnotation.m; sourceTree = "<group>"; };
+		A696CE15151A9EB200AD88CF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		A696CE17151A9EB500AD88CF /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		A6A3244A151982ED00BA2E10 /* LocateMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocateMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6A3244E151982ED00BA2E10 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A6A32450151982ED00BA2E10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A6A32452151982ED00BA2E10 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A6A32454151982ED00BA2E10 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A6A32458151982ED00BA2E10 /* LocateMe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LocateMe-Info.plist"; sourceTree = "<group>"; };
+		A6A3245A151982ED00BA2E10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A6A3245C151982ED00BA2E10 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A6A3245E151982ED00BA2E10 /* LocateMe-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LocateMe-Prefix.pch"; sourceTree = "<group>"; };
+		A6A3245F151982ED00BA2E10 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		A6A32460151982ED00BA2E10 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		A6A32463151982ED00BA2E10 /* LocateMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LocateMe.xcdatamodel; sourceTree = "<group>"; };
+		A6A3246A1519830700BA2E10 /* MyCLController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyCLController.h; sourceTree = "<group>"; };
+		A6A3246B1519830700BA2E10 /* MyCLController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyCLController.m; sourceTree = "<group>"; };
+		A6A3246C1519831F00BA2E10 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A6A3246E1519834500BA2E10 /* LocateMeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocateMeController.h; sourceTree = "<group>"; };
+		A6A3246F1519834500BA2E10 /* LocateMeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocateMeController.m; sourceTree = "<group>"; };
+		A6A32471151983AD00BA2E10 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A6A32485151996B300BA2E10 /* locateme.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locateme.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A6A32447151982ED00BA2E10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6A32472151983AD00BA2E10 /* MapKit.framework in Frameworks */,
+				A6A3246D1519831F00BA2E10 /* CoreLocation.framework in Frameworks */,
+				A6A3244F151982ED00BA2E10 /* UIKit.framework in Frameworks */,
+				A6A32451151982ED00BA2E10 /* Foundation.framework in Frameworks */,
+				A6A32453151982ED00BA2E10 /* CoreGraphics.framework in Frameworks */,
+				A6A32455151982ED00BA2E10 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A6A3243F151982ED00BA2E10 = {
+			isa = PBXGroup;
+			children = (
+				A6A32456151982ED00BA2E10 /* LocateMe */,
+				A6A324841519961100BA2E10 /* Resources */,
+				A6A3244D151982ED00BA2E10 /* Frameworks */,
+				A6A3244B151982ED00BA2E10 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A6A3244B151982ED00BA2E10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A6A3244A151982ED00BA2E10 /* LocateMe.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A6A3244D151982ED00BA2E10 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A6A32471151983AD00BA2E10 /* MapKit.framework */,
+				A6A3246C1519831F00BA2E10 /* CoreLocation.framework */,
+				A6A3244E151982ED00BA2E10 /* UIKit.framework */,
+				A6A32450151982ED00BA2E10 /* Foundation.framework */,
+				A6A32452151982ED00BA2E10 /* CoreGraphics.framework */,
+				A6A32454151982ED00BA2E10 /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A6A32456151982ED00BA2E10 /* LocateMe */ = {
+			isa = PBXGroup;
+			children = (
+				A6A3246E1519834500BA2E10 /* LocateMeController.h */,
+				A6A3246F1519834500BA2E10 /* LocateMeController.m */,
+				A6A3246A1519830700BA2E10 /* MyCLController.h */,
+				A6A3246B1519830700BA2E10 /* MyCLController.m */,
+				A6A3245F151982ED00BA2E10 /* AppDelegate.h */,
+				A6A32460151982ED00BA2E10 /* AppDelegate.m */,
+				A696CE11151A8F7F00AD88CF /* DropPinAnnotation.h */,
+				A696CE12151A8F7F00AD88CF /* DropPinAnnotation.m */,
+				A6A32462151982ED00BA2E10 /* LocateMe.xcdatamodeld */,
+				A6A32457151982ED00BA2E10 /* Supporting Files */,
+			);
+			path = LocateMe;
+			sourceTree = "<group>";
+		};
+		A6A32457151982ED00BA2E10 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A6A32458151982ED00BA2E10 /* LocateMe-Info.plist */,
+				A6A32459151982ED00BA2E10 /* InfoPlist.strings */,
+				A6A3245C151982ED00BA2E10 /* main.m */,
+				A6A3245E151982ED00BA2E10 /* LocateMe-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A6A324841519961100BA2E10 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A696CE17151A9EB500AD88CF /* icon@2x.png */,
+				A696CE15151A9EB200AD88CF /* Icon.png */,
+				A6A32485151996B300BA2E10 /* locateme.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A6A32449151982ED00BA2E10 /* LocateMe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6A32467151982ED00BA2E10 /* Build configuration list for PBXNativeTarget "LocateMe" */;
+			buildPhases = (
+				A6A32446151982ED00BA2E10 /* Sources */,
+				A6A32447151982ED00BA2E10 /* Frameworks */,
+				A6A32448151982ED00BA2E10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LocateMe;
+			productName = LocateMe;
+			productReference = A6A3244A151982ED00BA2E10 /* LocateMe.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A6A32441151982ED00BA2E10 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = A6A32444151982ED00BA2E10 /* Build configuration list for PBXProject "LocateMe" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A6A3243F151982ED00BA2E10;
+			productRefGroup = A6A3244B151982ED00BA2E10 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A6A32449151982ED00BA2E10 /* LocateMe */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A6A32448151982ED00BA2E10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6A3245B151982ED00BA2E10 /* InfoPlist.strings in Resources */,
+				A6A32486151996B300BA2E10 /* locateme.png in Resources */,
+				A696CE16151A9EB200AD88CF /* Icon.png in Resources */,
+				A696CE18151A9EB500AD88CF /* icon@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A6A32446151982ED00BA2E10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6A3245D151982ED00BA2E10 /* main.m in Sources */,
+				A6A32461151982ED00BA2E10 /* AppDelegate.m in Sources */,
+				A6A32464151982ED00BA2E10 /* LocateMe.xcdatamodeld in Sources */,
+				A6A324701519834500BA2E10 /* LocateMeController.m in Sources */,
+				A6A324771519883C00BA2E10 /* MyCLController.m in Sources */,
+				A696CE13151A8F7F00AD88CF /* DropPinAnnotation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A6A32459151982ED00BA2E10 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A6A3245A151982ED00BA2E10 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A6A32465151982ED00BA2E10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A6A32466151982ED00BA2E10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A6A32468151982ED00BA2E10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LocateMe/LocateMe-Prefix.pch";
+				INFOPLIST_FILE = "LocateMe/LocateMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A6A32469151982ED00BA2E10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LocateMe/LocateMe-Prefix.pch";
+				INFOPLIST_FILE = "LocateMe/LocateMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A6A32444151982ED00BA2E10 /* Build configuration list for PBXProject "LocateMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6A32465151982ED00BA2E10 /* Debug */,
+				A6A32466151982ED00BA2E10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6A32467151982ED00BA2E10 /* Build configuration list for PBXNativeTarget "LocateMe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6A32468151982ED00BA2E10 /* Debug */,
+				A6A32469151982ED00BA2E10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A6A32462151982ED00BA2E10 /* LocateMe.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A6A32463151982ED00BA2E10 /* LocateMe.xcdatamodel */,
+			);
+			currentVersion = A6A32463151982ED00BA2E10 /* LocateMe.xcdatamodel */;
+			path = LocateMe.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = A6A32441151982ED00BA2E10 /* Project object */;
+}
