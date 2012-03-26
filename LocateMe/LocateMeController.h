@@ -12,6 +12,7 @@
 #import "DropPinAnnotation.h" 
 #import "ASIHTTPRequest.h"
 #import "SBJson.h"
+#import "StartPoint.h"
 
 @interface LocateMeController : UIViewController <MyCLControllerDelegate, MKMapViewDelegate, MKAnnotation, ASIHTTPRequestDelegate>{
     IBOutlet MKMapView *mapView;
@@ -25,11 +26,13 @@
 @property (nonatomic, retain) UIBarButtonItem *walkItem;
 @property (nonatomic, retain) UIBarButtonItem *carItem;
 @property (nonatomic, retain) UIBarButtonItem *cyclingItem;
-@property (nonatomic, retain) NSData* data;
+@property (nonatomic, retain) StartPoint *startAnnotation;
+
 
 @property (nonatomic, retain) MKPolyline* routeLine;
 @property (nonatomic, retain) MKPolylineView* routeLineView;
 @property (nonatomic) MKMapRect routeRect;
+
 
 
 - (void)locationUpdate:(CLLocation *)location;
@@ -48,5 +51,7 @@
 
 -(void) drawRoute:(NSArray*)routeCoordinate;
 -(void) zoomInOnRoute;
+
+-(int) numberOfPinAdded:(NSString *)pinClassName;
 
 @end

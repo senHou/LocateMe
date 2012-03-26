@@ -13,6 +13,7 @@
 		A6A3140A151FD86C00FE2C04 /* cycling.png in Resources */ = {isa = PBXBuildFile; fileRef = A6A31408151FD86C00FE2C04 /* cycling.png */; };
 		A6A3140D151FD87700FE2C04 /* walk.png in Resources */ = {isa = PBXBuildFile; fileRef = A6A3140C151FD87700FE2C04 /* walk.png */; };
 		A6A3140F151FD8F500FE2C04 /* car.png in Resources */ = {isa = PBXBuildFile; fileRef = A6A3140E151FD8F500FE2C04 /* car.png */; };
+		A6A3142E1520152A00FE2C04 /* StartPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A3142D1520152A00FE2C04 /* StartPoint.m */; };
 		A6A3244F151982ED00BA2E10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A3244E151982ED00BA2E10 /* UIKit.framework */; };
 		A6A32451151982ED00BA2E10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A32450151982ED00BA2E10 /* Foundation.framework */; };
 		A6A32453151982ED00BA2E10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A32452151982ED00BA2E10 /* CoreGraphics.framework */; };
@@ -75,6 +76,8 @@
 		A6A31408151FD86C00FE2C04 /* cycling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cycling.png; sourceTree = "<group>"; };
 		A6A3140C151FD87700FE2C04 /* walk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = walk.png; path = LocateMe/walk.png; sourceTree = "<group>"; };
 		A6A3140E151FD8F500FE2C04 /* car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = car.png; sourceTree = "<group>"; };
+		A6A3142C1520152A00FE2C04 /* StartPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartPoint.h; sourceTree = "<group>"; };
+		A6A3142D1520152A00FE2C04 /* StartPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartPoint.m; sourceTree = "<group>"; };
 		A6A3244A151982ED00BA2E10 /* LocateMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocateMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6A3244E151982ED00BA2E10 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A6A32450151982ED00BA2E10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -247,6 +250,8 @@
 				A6A32460151982ED00BA2E10 /* AppDelegate.m */,
 				A696CE11151A8F7F00AD88CF /* DropPinAnnotation.h */,
 				A696CE12151A8F7F00AD88CF /* DropPinAnnotation.m */,
+				A6A3142C1520152A00FE2C04 /* StartPoint.h */,
+				A6A3142D1520152A00FE2C04 /* StartPoint.m */,
 				A6A32462151982ED00BA2E10 /* LocateMe.xcdatamodeld */,
 				A6A32457151982ED00BA2E10 /* Supporting Files */,
 			);
@@ -473,6 +478,7 @@
 				A6C1B3F4151C12DC009DB5F6 /* ASIInputStream.m in Sources */,
 				A6C1B3F5151C12DE009DB5F6 /* ASINetworkQueue.m in Sources */,
 				A6C1B3FA151C145B009DB5F6 /* Reachability.m in Sources */,
+				A6A3142E1520152A00FE2C04 /* StartPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

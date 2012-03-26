@@ -23,10 +23,10 @@
 @synthesize walkItem;
 @synthesize carItem;
 @synthesize cyclingItem;
-@synthesize data;
 @synthesize routeLine;
 @synthesize routeRect;
 @synthesize routeLineView;
+@synthesize startAnnotation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,24 +57,27 @@
     [toolBar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionBottom barMetrics:1];
     
     
-    
+    //create locate me button
     UIButton *locateMeButton = [self getButtonWithImage:@"locateme.png" x:10 andY:425];      
     [locateMeButton addTarget:self action:@selector(locateMe:) forControlEvents:UIControlEventTouchUpInside];       
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:locateMeButton];
     
     
+    //create walk button
     UIButton *walkButton = [self getButtonWithImage:@"walk.png" x:200 andY:425];
     [walkButton addTarget:self action:@selector(walkRoute:) forControlEvents:UIControlEventTouchUpInside];
     walkItem = [[UIBarButtonItem alloc] initWithCustomView:walkButton];
     [walkItem setEnabled:NO];
     
     
+    //create cycling button
     UIButton *cyclingButton = [self getButtonWithImage:@"cycling.png" x:200 andY:425];
     [cyclingButton addTarget:self action:@selector(cyclingRoute:) forControlEvents:UIControlEventTouchUpInside];
     cyclingItem = [[UIBarButtonItem alloc] initWithCustomView:cyclingButton];
     [cyclingItem setEnabled:NO];
     
     
+    //create car button
     UIButton *carButton = [self getButtonWithImage:@"car.png" x:200 andY:425];
     [carButton addTarget:self action:@selector(carRoute:) forControlEvents:UIControlEventTouchUpInside];
     carItem = [[UIBarButtonItem alloc] initWithCustomView:carButton];
@@ -143,7 +146,7 @@
                 name = [NSString stringWithFormat:@"%@ %@,%@", 
                                  [topResult name],[topResult administrativeArea],
                                  [topResult  country]];
-                if ([[self.mapView annotations ]count] == 0){
+                if ([self numberOfPinAdded:@"DropPinAnnotation"] == 0){
                     
                     myAnnotation = [[DropPinAnnotation alloc] initWithTitle:NULL andCoordinate:coordinate];
                     [myAnnotation setTitle:name];
@@ -157,8 +160,41 @@
                     [self.mapView addAnnotation:myAnnotation];
                 }
             }
+            
+            if ([[self.mapView overlays] count] != 0){
+                [self.mapView removeOverlay:routeLine];
+                routeLine = nil;
+                self.routeLineView = nil;
+            }
         }];
     }
+}
+
+
+
+//delegate method
+- (MKAnnotationView *) mapView:(MKMapView *)mapView 
+             viewForAnnotation:(id <MKAnnotation>) annotation {
+    
+    MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] 
+                                  initWithAnnotation:annotation reuseIdentifier:@"pin"];
+    
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]]){
+        return nil;
+    }
+    
+    if ([annotation isKindOfClass:[StartPoint class]]){
+        annView.pinColor = MKPinAnnotationColorGreen;
+    }
+    
+    if ([annotation isKindOfClass:[DropPinAnnotation class]])
+        annView.pinColor = MKPinAnnotationColorRed;
+    
+    annView.animatesDrop = YES;
+    annView.canShowCallout = YES;
+    
+    return annView;
 }
 
 -(UIButton *) getButtonWithImage:(NSString *)imageName x:(int)x andY:(int)y{
@@ -174,6 +210,8 @@
     return aButton;
 }
 
+
+// locate my current location
 -(IBAction)locateMe:(id)sender{
     
     MKCoordinateRegion region;
@@ -181,19 +219,29 @@
 	region.span.longitudeDelta = 0.219727;
 	region.span.latitudeDelta = 0.221574;
     
-    [self.mapView setShowsUserLocation:YES];
-    [self.mapView showsUserLocation];
-    
 	region.center.latitude = location.coordinate.latitude;
 	region.center.longitude = location.coordinate.longitude;
     
 	[mapView setRegion:region animated:YES];
+
+    [self.mapView setShowsUserLocation:YES];
+    [self.mapView showsUserLocation];
 }
 
+
+//walk route
 -(IBAction)walkRoute:(id)sender{
     
     if ([[self.mapView overlays] count] != 0){
         [self.mapView removeOverlay:routeLine];
+        routeLine = nil;
+        self.routeLineView = nil;
+    }
+    
+    if ([self numberOfPinAdded:@"StartPoint"] == 0 ){
+        CLLocationCoordinate2D startCoordinate = CLLocationCoordinate2DMake(location.coordinate.latitude,location.coordinate.longitude);
+        startAnnotation = [[StartPoint alloc]initWithTitle:@"Current Location" andCoordinate:startCoordinate];
+        [self.mapView addAnnotation:startAnnotation];
     }
     
     NSLog(@"walk");
@@ -206,12 +254,24 @@
     [request startAsynchronous];
 }
 
+//car route
 -(IBAction)carRoute:(id)sender{
  
     if ([[self.mapView overlays] count] != 0){
         [self.mapView removeOverlay:routeLine];
+        routeLine = nil;
+        self.routeLineView = nil;
     }
+    
+    if ([self numberOfPinAdded:@"StartPoint"] == 0){
+        CLLocationCoordinate2D startCoordinate = CLLocationCoordinate2DMake(location.coordinate.latitude,location.coordinate.longitude);
+        startAnnotation = [[StartPoint alloc]initWithTitle:@"Current Location" andCoordinate:startCoordinate];
+        [self.mapView addAnnotation:startAnnotation];
+    }
+    
     NSLog(@"car");
+    
+    
     NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/car.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
     NSURL *URL = [NSURL URLWithString:urlString];
     
@@ -220,11 +280,20 @@
     [request startAsynchronous];
 }
 
+// cycling route
 -(IBAction)cyclingRoute:(id)sender{
     
     NSLog(@"cycling");
     if ([[self.mapView overlays] count] != 0){
         [self.mapView removeOverlay:routeLine];
+        routeLine = nil;
+        self.routeLineView = nil;
+    }
+    
+    if ([self numberOfPinAdded:@"StartPoint"] == 0){
+        CLLocationCoordinate2D startCoordinate = CLLocationCoordinate2DMake(location.coordinate.latitude,location.coordinate.longitude);
+        startAnnotation = [[StartPoint alloc]initWithTitle:@"Current Location" andCoordinate:startCoordinate];
+        [self.mapView addAnnotation:startAnnotation];
     }
     
     NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/bicycle.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
@@ -242,8 +311,12 @@
     // [request responseData]; is how we capture binary output like images
     // Then to create an image from the response we might do something like
     // UIImage *image = [[UIImage alloc] initWithData:[request responseData]];
+    routeLine = nil;
     
-    data = [request responseData];
+    NSData *data = [request responseData];
+    
+//    NSString *string = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+//    NSLog(@"%@",string);
 
     NSDictionary * routeDictionary = [self getRouteInfo:data];
     
@@ -251,6 +324,7 @@
     
     [self drawRoute:routeCoordinate];
     [self zoomInOnRoute];
+    
     
     if (routeLine != nil){
         [self.mapView addOverlay:routeLine];
@@ -260,7 +334,7 @@
 -(NSDictionary *) getRouteInfo:(NSData *)routeData{
     
     SBJsonParser *parser = [[SBJsonParser alloc] init]; 
-    NSMutableDictionary  * datas = [parser objectWithData:data];
+    NSMutableDictionary  * datas = [parser objectWithData:routeData];
     
     NSArray *coordinates = [datas objectForKey:@"route_geometry"];
     
@@ -328,7 +402,7 @@
 			if (point.y < southWestPoint.y) 
 				southWestPoint.y = point.y;
         }
-    }
+    }    
     
     routeLine = [MKPolyline polylineWithCoordinates:points count:routeCoordinate.count];
     
@@ -344,6 +418,7 @@
 - (void)locationError:(NSError *)error{
     NSLog(@"%@",[error debugDescription]);
 }
+
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
@@ -364,6 +439,23 @@
 		overlayView = self.routeLineView;
 	}
 	return overlayView;
+}
+
+-(int) numberOfPinAdded:(NSString *)pinClassName{
+    
+    NSArray *pins = [self.mapView annotations];
+    int count = 0;
+    NSString *className;
+    
+    for (int i = 0; i < pins.count; i ++){
+        
+        className = [NSString stringWithFormat:@"%@",[[pins objectAtIndex:i] class]];
+        
+        if ([className isEqualToString:pinClassName]){
+            count ++;
+        }
+    }
+    return count;
 }
 
 @end
