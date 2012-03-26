@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A695DE8F15203A7A00F2886F /* RouteInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = A695DE8E15203A7A00F2886F /* RouteInstruction.m */; };
 		A696CE13151A8F7F00AD88CF /* DropPinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = A696CE12151A8F7F00AD88CF /* DropPinAnnotation.m */; };
 		A696CE16151A9EB200AD88CF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A696CE15151A9EB200AD88CF /* Icon.png */; };
 		A696CE18151A9EB500AD88CF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A696CE17151A9EB500AD88CF /* icon@2x.png */; };
@@ -69,6 +70,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A695DE8D15203A7A00F2886F /* RouteInstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteInstruction.h; sourceTree = "<group>"; };
+		A695DE8E15203A7A00F2886F /* RouteInstruction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteInstruction.m; sourceTree = "<group>"; };
 		A696CE11151A8F7F00AD88CF /* DropPinAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropPinAnnotation.h; sourceTree = "<group>"; };
 		A696CE12151A8F7F00AD88CF /* DropPinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropPinAnnotation.m; sourceTree = "<group>"; };
 		A696CE15151A9EB200AD88CF /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -252,6 +255,8 @@
 				A696CE12151A8F7F00AD88CF /* DropPinAnnotation.m */,
 				A6A3142C1520152A00FE2C04 /* StartPoint.h */,
 				A6A3142D1520152A00FE2C04 /* StartPoint.m */,
+				A695DE8D15203A7A00F2886F /* RouteInstruction.h */,
+				A695DE8E15203A7A00F2886F /* RouteInstruction.m */,
 				A6A32462151982ED00BA2E10 /* LocateMe.xcdatamodeld */,
 				A6A32457151982ED00BA2E10 /* Supporting Files */,
 			);
@@ -479,6 +484,7 @@
 				A6C1B3F5151C12DE009DB5F6 /* ASINetworkQueue.m in Sources */,
 				A6C1B3FA151C145B009DB5F6 /* Reachability.m in Sources */,
 				A6A3142E1520152A00FE2C04 /* StartPoint.m in Sources */,
+				A695DE8F15203A7A00F2886F /* RouteInstruction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

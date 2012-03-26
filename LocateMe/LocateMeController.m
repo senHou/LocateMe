@@ -27,6 +27,10 @@
 @synthesize routeRect;
 @synthesize routeLineView;
 @synthesize startAnnotation;
+@synthesize previous;
+@synthesize next;
+@synthesize indexField;
+@synthesize totalRoute;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,16 +50,37 @@
     myLocationController = [[MyCLController alloc] init];
     
     self.myLocationController.delegate = self;
-    
     self.mapView.delegate = self;
     
     [self.view addSubview:mapView];
     
+    [self.mapView setShowsUserLocation:YES];
+    [self.mapView showsUserLocation];
+    
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    
+    indexField = [[UITextField alloc] initWithFrame:CGRectMake(87, 7, 145, 31)];
+    [indexField setTextAlignment:UITextAlignmentCenter];
+    [indexField setTextColor:[UIColor whiteColor]];
+    [indexField setText:@"16 of 16"];
+    
+    UIBarButtonItem *routeNumber = [[UIBarButtonItem alloc] initWithCustomView:indexField];
+    
+    UIToolbar *topToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,320, 44) ];
+    [topToolBar setBarStyle:UIBarStyleDefault];
+    
+    previous = [[UIBarButtonItem alloc] initWithTitle:@"<" style:UIBarButtonItemStyleBordered target:self action:@selector(getPrevious:)];
+    
+    next = [[UIBarButtonItem alloc] initWithTitle:@">" style:UIBarButtonItemStyleBordered target:self action:@selector(getNext:)];
+    NSArray *routeItems = [NSArray arrayWithObjects:previous,flexibleSpace,routeNumber,flexibleSpace,next,nil];
+    [topToolBar setItems:routeItems];
+    
+    [self.mapView addSubview:topToolBar];
+    
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,416,320,44)];
     
     [toolBar setBarStyle:UIBarStyleDefault];
-    [toolBar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionBottom barMetrics:1];
-    
     
     //create locate me button
     UIButton *locateMeButton = [self getButtonWithImage:@"locateme.png" x:10 andY:425];      
@@ -82,8 +107,6 @@
     [carButton addTarget:self action:@selector(carRoute:) forControlEvents:UIControlEventTouchUpInside];
     carItem = [[UIBarButtonItem alloc] initWithCustomView:carButton];
     [carItem setEnabled:NO];
-    
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     NSArray *items = [NSArray arrayWithObjects:button,flexibleSpace,walkItem,cyclingItem,carItem,flexibleSpace,nil];
     [toolBar setItems:items];
@@ -123,6 +146,8 @@
         CGPoint point = [sender locationInView:self.mapView];
         coordinate =  [self.mapView convertPoint:point toCoordinateFromView:self.mapView] ;
         
+        NSLog(@"la = %f long = %f",coordinate.latitude,coordinate.longitude);
+        
         
         CLLocation *myLocation = [[CLLocation  alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -134,6 +159,8 @@
             [walkItem setEnabled:YES];
             [cyclingItem setEnabled:YES];
             [carItem setEnabled:YES];
+            
+            
             if (error){
                 NSLog(@"Geocode failed with error: %@", error);            
                 return;
@@ -169,7 +196,6 @@
         }];
     }
 }
-
 
 
 //delegate method
@@ -245,7 +271,7 @@
     }
     
     NSLog(@"walk");
-    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/foot.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
+    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/foot.js?token=f2b73a932da044698f25dc5ed3ec074c&units=km",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
     
     NSURL *URL = [NSURL URLWithString:urlString];
     
@@ -272,7 +298,7 @@
     NSLog(@"car");
     
     
-    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/car.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
+    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/car.js?token=f2b73a932da044698f25dc5ed3ec074c&units=km",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
     NSURL *URL = [NSURL URLWithString:urlString];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:URL];
@@ -296,7 +322,7 @@
         [self.mapView addAnnotation:startAnnotation];
     }
     
-    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/bicycle.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
+    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/bicycle.js?token=f2b73a932da044698f25dc5ed3ec074c&units=km",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
     
     NSURL *URL = [NSURL URLWithString:urlString];
     
@@ -331,6 +357,8 @@
     }
 }
 
+
+// get route information start point and end point
 -(NSDictionary *) getRouteInfo:(NSData *)routeData{
     
     SBJsonParser *parser = [[SBJsonParser alloc] init]; 
@@ -339,8 +367,24 @@
     NSArray *coordinates = [datas objectForKey:@"route_geometry"];
     
     NSMutableArray *routeCoordinates = [[NSMutableArray alloc] init];
+    NSMutableArray *routeInstructions = [[NSMutableArray alloc] init];
     CLLocation *routeLocation;
     
+    NSArray *instruction = [datas objectForKey:@"route_instructions"];
+    //RouteInstruction *routeInstruction;
+    
+    RouteInstruction *routeInstruction;
+    int length;
+    
+    for (int i = 0; i < instruction.count; i ++){
+        NSLog(@"%@",[[instruction objectAtIndex:i] objectAtIndex:0]);
+        
+        length = [[[instruction objectAtIndex:i]objectAtIndex:1] intValue];
+        routeInstruction = [[RouteInstruction alloc] initRouteWithInstruction:[[instruction objectAtIndex:i] objectAtIndex:0]
+                                                                       length:length
+                                                             andLengthCaption:[[instruction objectAtIndex:i]objectAtIndex:4]];
+        [routeInstructions addObject:routeInstruction];
+    }
     
     
     double latitude;
@@ -356,14 +400,18 @@
         [routeCoordinates addObject:routeLocation];
     }
     
-    NSArray *key = [[NSArray alloc] initWithObjects:@"route_geometry", nil];
-    NSArray *value = [[NSArray alloc] initWithObjects:routeCoordinates, nil];
+    
+    
+    NSArray *key = [[NSArray alloc] initWithObjects:@"route_geometry",@"route_instructions" ,nil];
+    NSArray *value = [[NSArray alloc] initWithObjects:routeCoordinates, routeCoordinates,nil];
     
     NSDictionary *routeDictionary = [[NSDictionary alloc] initWithObjects:value forKeys:key];
     
     return routeDictionary;
 }
 
+
+//get all the coordinate and draw a line
 -(void) drawRoute:(NSArray*)routeCoordinate{
     
     CLLocationCoordinate2D points[routeCoordinate.count];
@@ -411,6 +459,8 @@
 	routeRect = MKMapRectMake(southWestPoint.x, southWestPoint.y, northEastPoint.x - southWestPoint.x, northEastPoint.y - southWestPoint.y);
 }
 
+
+//zoom in the map
 -(void) zoomInOnRoute{
     [self.mapView setVisibleMapRect:routeRect];
 }
@@ -420,6 +470,8 @@
 }
 
 
+
+//draw the route
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
 	MKOverlayView* overlayView = nil;
@@ -431,8 +483,10 @@
 		{
 			self.routeLineView = [[MKPolylineView alloc] initWithPolyline:routeLine];
             
-            UIColor *color = [UIColor colorWithRed:0.1 green:0.53 blue:0.95 alpha:1];
+            //UIColor *color = [UIColor colorWithRed:0.1 green:0.53 blue:0.95 alpha:0.5];
+            UIColor *color = [UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:0.5];
             self.routeLineView.fillColor = [UIColor redColor];
+            
 			self.routeLineView.strokeColor = color;
 			self.routeLineView.lineWidth = 4;
 		}
@@ -456,6 +510,13 @@
         }
     }
     return count;
+}
+
+-(IBAction)getPrevious:(id)sender{
+    
+}
+-(IBAction)getNext:(id)sender{
+    
 }
 
 @end

@@ -13,6 +13,7 @@
 #import "ASIHTTPRequest.h"
 #import "SBJson.h"
 #import "StartPoint.h"
+#import "RouteInstruction.h"
 
 @interface LocateMeController : UIViewController <MyCLControllerDelegate, MKMapViewDelegate, MKAnnotation, ASIHTTPRequestDelegate>{
     IBOutlet MKMapView *mapView;
@@ -27,6 +28,10 @@
 @property (nonatomic, retain) UIBarButtonItem *carItem;
 @property (nonatomic, retain) UIBarButtonItem *cyclingItem;
 @property (nonatomic, retain) StartPoint *startAnnotation;
+@property (nonatomic, retain) UIBarButtonItem *previous;
+@property (nonatomic, retain) UIBarButtonItem *next;
+@property (nonatomic, retain) UITextField *indexField;
+@property (nonatomic) int totalRoute;
 
 
 @property (nonatomic, retain) MKPolyline* routeLine;
@@ -42,6 +47,8 @@
 -(IBAction)walkRoute:(id)sender;
 -(IBAction)carRoute:(id)sender;
 -(IBAction)cyclingRoute:(id)sender;
+-(IBAction)getPrevious:(id)sender;
+-(IBAction)getNext:(id)sender;
 
 -(UIButton *) getButtonWithImage:(NSString *)imageName x:(int)x andY:(int)y;
 
