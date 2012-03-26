@@ -17,6 +17,16 @@
 @synthesize mapView;
 @synthesize myLocationController;
 @synthesize location;
+@synthesize coordinate;
+@synthesize myAnnotation;
+@synthesize name;
+@synthesize walkItem;
+@synthesize carItem;
+@synthesize cyclingItem;
+@synthesize data;
+@synthesize routeLine;
+@synthesize routeRect;
+@synthesize routeLineView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,24 +46,43 @@
     myLocationController = [[MyCLController alloc] init];
     
     self.myLocationController.delegate = self;
+    
+    self.mapView.delegate = self;
+    
     [self.view addSubview:mapView];
     
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,416,320,44)];
+    
     [toolBar setBarStyle:UIBarStyleDefault];
     [toolBar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionBottom barMetrics:1];
     
-    UIImage *image = [UIImage imageNamed:@"locateme.png"];
     
     
-    UIButton *aButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [aButton setImage:image forState:UIControlStateNormal];
-    aButton.frame = CGRectMake(10, 425, image.size.width, image.size.height);
+    UIButton *locateMeButton = [self getButtonWithImage:@"locateme.png" x:10 andY:425];      
+    [locateMeButton addTarget:self action:@selector(locateMe:) forControlEvents:UIControlEventTouchUpInside];       
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:locateMeButton];
     
-    [aButton addTarget:self action:@selector(locateMe:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:aButton];
+    UIButton *walkButton = [self getButtonWithImage:@"walk.png" x:200 andY:425];
+    [walkButton addTarget:self action:@selector(walkRoute:) forControlEvents:UIControlEventTouchUpInside];
+    walkItem = [[UIBarButtonItem alloc] initWithCustomView:walkButton];
+    [walkItem setEnabled:NO];
     
-    NSArray *items = [NSArray arrayWithObject:button];
+    
+    UIButton *cyclingButton = [self getButtonWithImage:@"cycling.png" x:200 andY:425];
+    [cyclingButton addTarget:self action:@selector(cyclingRoute:) forControlEvents:UIControlEventTouchUpInside];
+    cyclingItem = [[UIBarButtonItem alloc] initWithCustomView:cyclingButton];
+    [cyclingItem setEnabled:NO];
+    
+    
+    UIButton *carButton = [self getButtonWithImage:@"car.png" x:200 andY:425];
+    [carButton addTarget:self action:@selector(carRoute:) forControlEvents:UIControlEventTouchUpInside];
+    carItem = [[UIBarButtonItem alloc] initWithCustomView:carButton];
+    [carItem setEnabled:NO];
+    
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    NSArray *items = [NSArray arrayWithObjects:button,flexibleSpace,walkItem,cyclingItem,carItem,flexibleSpace,nil];
     [toolBar setItems:items];
     
     [self.view addSubview:toolBar];
@@ -83,19 +112,25 @@
 
 // long press on the map and drop the pin at the point you pressed.
 -(void)handleLongPressGesture:(UILongPressGestureRecognizer*)sender {
-    if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateChanged)
+    if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateChanged){
         return;
+    }
     else {
         
         CGPoint point = [sender locationInView:self.mapView];
-        CLLocationCoordinate2D coordinate =  [self.mapView convertPoint:point toCoordinateFromView:self.mapView] ;
+        coordinate =  [self.mapView convertPoint:point toCoordinateFromView:self.mapView] ;
+        
+        
         CLLocation *myLocation = [[CLLocation  alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
 
         
+        
         [geocoder reverseGeocodeLocation:myLocation completionHandler:^(NSArray *placemarks, NSError *error){
             NSLog(@"reverseGeocodeLocation:completionHandler: Completion Handler called!");
-            
+            [walkItem setEnabled:YES];
+            [cyclingItem setEnabled:YES];
+            [carItem setEnabled:YES];
             if (error){
                 NSLog(@"Geocode failed with error: %@", error);            
                 return;
@@ -104,18 +139,39 @@
             
             if(placemarks && placemarks.count > 0){
                 CLPlacemark *topResult = [placemarks objectAtIndex:0];
-                NSString *tmp = [NSString stringWithFormat:@"%@ %@,%@", 
-                                        [topResult name],[topResult administrativeArea],
-                                        [topResult  country]];
-                
-                NSLog(@"%@",tmp);
-                DropPinAnnotation *annotaion = [[DropPinAnnotation alloc] initWithTitle:tmp andCoordinate:coordinate];
-                [self.mapView addAnnotation:annotaion];
 
+                name = [NSString stringWithFormat:@"%@ %@,%@", 
+                                 [topResult name],[topResult administrativeArea],
+                                 [topResult  country]];
+                if ([[self.mapView annotations ]count] == 0){
+                    
+                    myAnnotation = [[DropPinAnnotation alloc] initWithTitle:NULL andCoordinate:coordinate];
+                    [myAnnotation setTitle:name];
+                    [self.mapView addAnnotation:myAnnotation];
+                }else {
+                    DropPinAnnotation *tmpAnnotaton = myAnnotation;
+                    
+                    myAnnotation = [[DropPinAnnotation alloc] initWithTitle:NULL andCoordinate:coordinate];
+                    [myAnnotation setTitle:name];
+                    [self.mapView removeAnnotation:tmpAnnotaton];
+                    [self.mapView addAnnotation:myAnnotation];
+                }
             }
         }];
-        
     }
+}
+
+-(UIButton *) getButtonWithImage:(NSString *)imageName x:(int)x andY:(int)y{
+    
+    UIImage *image = [UIImage imageNamed:imageName];
+    
+    
+    UIButton *aButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [aButton setImage:image forState:UIControlStateNormal];
+    aButton.frame = CGRectMake(x, y, image.size.width, image.size.height);
+    
+    
+    return aButton;
 }
 
 -(IBAction)locateMe:(id)sender{
@@ -134,8 +190,180 @@
 	[mapView setRegion:region animated:YES];
 }
 
+-(IBAction)walkRoute:(id)sender{
+    
+    if ([[self.mapView overlays] count] != 0){
+        [self.mapView removeOverlay:routeLine];
+    }
+    
+    NSLog(@"walk");
+    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/foot.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
+    
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:URL];
+    [request setDelegate:self];
+    [request startAsynchronous];
+}
+
+-(IBAction)carRoute:(id)sender{
+ 
+    if ([[self.mapView overlays] count] != 0){
+        [self.mapView removeOverlay:routeLine];
+    }
+    NSLog(@"car");
+    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/car.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:URL];
+    [request setDelegate:self];
+    [request startAsynchronous];
+}
+
+-(IBAction)cyclingRoute:(id)sender{
+    
+    NSLog(@"cycling");
+    if ([[self.mapView overlays] count] != 0){
+        [self.mapView removeOverlay:routeLine];
+    }
+    
+    NSString *urlString = [NSString stringWithFormat:@"http://routes.cloudmade.com/4fefed3d2b3144eba08b8f00fad99da4/api/0.3/%f,%f,%f,%f/bicycle.js?token=f2b73a932da044698f25dc5ed3ec074c",location.coordinate.latitude,location.coordinate.longitude,myAnnotation.coordinate.latitude,myAnnotation.coordinate.longitude];
+    
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:URL];
+    [request setDelegate:self];
+    [request startAsynchronous];
+}
+
+-(void) requestFinished: (ASIHTTPRequest *) request {
+    
+    // [request responseString]; is how we capture textual output like HTML or JSON
+    // [request responseData]; is how we capture binary output like images
+    // Then to create an image from the response we might do something like
+    // UIImage *image = [[UIImage alloc] initWithData:[request responseData]];
+    
+    data = [request responseData];
+
+    NSDictionary * routeDictionary = [self getRouteInfo:data];
+    
+    NSArray *routeCoordinate = [routeDictionary objectForKey:@"route_geometry"];
+    
+    [self drawRoute:routeCoordinate];
+    [self zoomInOnRoute];
+    
+    if (routeLine != nil){
+        [self.mapView addOverlay:routeLine];
+    }
+}
+
+-(NSDictionary *) getRouteInfo:(NSData *)routeData{
+    
+    SBJsonParser *parser = [[SBJsonParser alloc] init]; 
+    NSMutableDictionary  * datas = [parser objectWithData:data];
+    
+    NSArray *coordinates = [datas objectForKey:@"route_geometry"];
+    
+    NSMutableArray *routeCoordinates = [[NSMutableArray alloc] init];
+    CLLocation *routeLocation;
+    
+    
+    
+    double latitude;
+    double longitude;
+    
+    for (int i = 0; i < coordinates.count; i ++){
+        
+        latitude = [[[coordinates objectAtIndex:i] objectAtIndex:0]doubleValue];
+        longitude = [[[coordinates objectAtIndex:i] objectAtIndex:1] doubleValue];
+        
+        routeLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        
+        [routeCoordinates addObject:routeLocation];
+    }
+    
+    NSArray *key = [[NSArray alloc] initWithObjects:@"route_geometry", nil];
+    NSArray *value = [[NSArray alloc] initWithObjects:routeCoordinates, nil];
+    
+    NSDictionary *routeDictionary = [[NSDictionary alloc] initWithObjects:value forKeys:key];
+    
+    return routeDictionary;
+}
+
+-(void) drawRoute:(NSArray*)routeCoordinate{
+    
+    CLLocationCoordinate2D points[routeCoordinate.count];
+    
+    MKMapPoint northEastPoint;
+    MKMapPoint southWestPoint;
+    
+    for (int i = 0; i < routeCoordinate.count ; i ++){
+        
+        CLLocation *currentPoint = [routeCoordinate objectAtIndex:i];
+
+        
+        CLLocationDegrees latitude  = currentPoint.coordinate.latitude;
+		CLLocationDegrees longitude = currentPoint.coordinate.longitude;
+        
+        
+		// create our coordinate and add it to the correct spot in the array 
+		CLLocationCoordinate2D routeCoordinate = CLLocationCoordinate2DMake(latitude, longitude);
+        
+		MKMapPoint point = MKMapPointForCoordinate(routeCoordinate);
+        
+        points[i] = routeCoordinate;
+        
+        
+        //get the max x and y from all the coordinate.
+        if (i == 0){
+            northEastPoint = point;
+            southWestPoint = point;
+        }else {
+            if (point.x > northEastPoint.x) 
+				northEastPoint.x = point.x;
+			if(point.y > northEastPoint.y)
+				northEastPoint.y = point.y;
+			if (point.x < southWestPoint.x) 
+				southWestPoint.x = point.x;
+			if (point.y < southWestPoint.y) 
+				southWestPoint.y = point.y;
+        }
+    }
+    
+    routeLine = [MKPolyline polylineWithCoordinates:points count:routeCoordinate.count];
+    
+    
+    // box to show the route.
+	routeRect = MKMapRectMake(southWestPoint.x, southWestPoint.y, northEastPoint.x - southWestPoint.x, northEastPoint.y - southWestPoint.y);
+}
+
+-(void) zoomInOnRoute{
+    [self.mapView setVisibleMapRect:routeRect];
+}
+
 - (void)locationError:(NSError *)error{
     NSLog(@"%@",[error debugDescription]);
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+	MKOverlayView* overlayView = nil;
+    
+    if(overlay == routeLine)
+	{
+		//if we have not yet created an overlay view for this overlay, create it now. 
+		if(nil == self.routeLineView)
+		{
+			self.routeLineView = [[MKPolylineView alloc] initWithPolyline:routeLine];
+            
+            UIColor *color = [UIColor colorWithRed:0.1 green:0.53 blue:0.95 alpha:1];
+            self.routeLineView.fillColor = [UIColor redColor];
+			self.routeLineView.strokeColor = color;
+			self.routeLineView.lineWidth = 4;
+		}
+		overlayView = self.routeLineView;
+	}
+	return overlayView;
 }
 
 @end
